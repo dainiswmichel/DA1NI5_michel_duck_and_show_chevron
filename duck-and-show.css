@@ -1,0 +1,130 @@
+/* ============================================================================
+ * DA1NI5 Michel Duck and Show Chevron  v1.0.0
+ * Pure CSS + vanilla JS panel toggle with a 3-line beveled chevron.
+ *
+ * © 2026 Dainis W. Michel — MIT License
+ * https://github.com/dainismichel/DA1NI5_michel_duck_and_show_chevron
+ *
+ * Named after inventor DA1NI5 (Dainis) Michel.
+ *
+ * "Duck" = collapse/hide the panel, leaving only the upward chevron visible.
+ * "Show" = expand the panel, chevron points downward.
+ *
+ * CSS Custom Properties (override on .das-panel or :root):
+ *   --das-chevron-width   : 40px    Chevron width
+ *   --das-chevron-height  : 10px    Chevron height (shallow = wide + short)
+ *   --das-line-1          : #ffffff  Top line  (highlight)
+ *   --das-line-2          : #aaaaaa  Mid line  (body)
+ *   --das-line-3          : #555555  Bottom line (shadow)
+ *   --das-focus-color     : #4f46e5  Focus-visible outline color
+ *   --das-transition-ms   : 0.3s    Content expand/collapse duration
+ * ============================================================================ */
+
+
+/* --- Panel Container ------------------------------------------------------- */
+
+.das-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+/* --- Chevron Toggle Button ------------------------------------------------- */
+
+.das-chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 18px;
+    padding: 4px 0;
+    margin: 0 auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+/* Keyboard focus ring */
+.das-chevron:focus-visible {
+    outline: 2px solid var(--das-focus-color, #4f46e5);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* The chevron shape — 3-line beveled V via clip-path + linear-gradient.
+ * Points DOWN in "shown" state. Rotates 180° to point UP in "ducked" state.
+ *
+ * Clip-path polygon trace (40×10 coordinate space):
+ *   Outer V:  (0,0) → (20,10) → (40,0)
+ *   Inner V:  (33.6,0) → (20,6.2) → (6.4,0)
+ *   Result:   hollow V-outline ≈ 3px perpendicular stroke
+ */
+.das-chevron::after {
+    content: '';
+    display: block;
+    width: var(--das-chevron-width, 40px);
+    height: var(--das-chevron-height, 10px);
+    clip-path: polygon(
+        0%  0%,
+        50% 100%,
+        100% 0%,
+        84% 0%,
+        50% 62%,
+        16% 0%
+    );
+    background: linear-gradient(
+        to bottom,
+        var(--das-line-1, #ffffff) 0%,
+        var(--das-line-1, #ffffff) 30%,
+        var(--das-line-2, #aaaaaa) 30%,
+        var(--das-line-2, #aaaaaa) 60%,
+        var(--das-line-3, #555555) 60%,
+        var(--das-line-3, #555555) 100%
+    );
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Subtle shift on hover — customizable via --das-line-*-hover */
+.das-chevron:hover::after {
+    background: linear-gradient(
+        to bottom,
+        var(--das-line-1-hover, var(--das-line-1, #ffffff)) 0%,
+        var(--das-line-1-hover, var(--das-line-1, #ffffff)) 30%,
+        var(--das-line-2-hover, var(--das-line-2, #999999)) 30%,
+        var(--das-line-2-hover, var(--das-line-2, #999999)) 60%,
+        var(--das-line-3-hover, var(--das-line-3, #444444)) 60%,
+        var(--das-line-3-hover, var(--das-line-3, #444444)) 100%
+    );
+}
+
+
+/* --- Content Area (grid-row animation for pixel-perfect height) ------------ */
+
+.das-content {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows var(--das-transition-ms, 0.3s) cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+}
+
+/* Inner wrapper — required for the grid-row collapse trick */
+.das-content-inner {
+    overflow: hidden;
+}
+
+
+/* --- Ducked State ---------------------------------------------------------- */
+
+[data-das-state="ducked"] .das-chevron::after {
+    transform: rotate(180deg);
+}
+
+[data-das-state="ducked"] .das-content {
+    grid-template-rows: 0fr;
+}

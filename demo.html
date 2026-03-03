@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DA1NI5 Michel Duck and Show Chevron — Demo</title>
+    <link rel="stylesheet" href="duck-and-show.css">
+    <style>
+        /* ── Demo page styles (not part of the component) ── */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a2e;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 15px;
+            color: #666;
+            max-width: 460px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        main {
+            max-width: 640px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        section {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+        }
+
+        section.dark {
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+
+        section h2 {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #999;
+            margin-bottom: 16px;
+        }
+
+        section.dark h2 {
+            color: #667;
+        }
+
+        /* Demo pill buttons (mimicking FLOSC autoprompt pills) */
+        .demo-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            padding: 8px 0;
+        }
+
+        .demo-pill {
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            background: #fafafa;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .demo-pill:hover {
+            background: #f0f0ff;
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+
+        .demo-pill.dark-pill {
+            background: #2a2a4a;
+            border-color: #3a3a5a;
+            color: #c8c8e0;
+        }
+
+        .demo-pill.dark-pill:hover {
+            background: #3a3a5a;
+            border-color: #6366f1;
+            color: #a5b4fc;
+        }
+
+        /* Event log panel */
+        .event-log {
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 12px;
+            color: #666;
+            min-height: 28px;
+            line-height: 1.6;
+        }
+
+        section.dark .event-log {
+            background: #12122a;
+            color: #778;
+        }
+
+        .event-log .log-entry {
+            opacity: 0;
+            animation: fadeIn 0.2s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 48px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        footer a {
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dark background chevron override — brighter lines */
+        .dark .das-panel {
+            --das-line-1: #e0e0e0;
+            --das-line-2: #888888;
+            --das-line-3: #444444;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>DA1NI5 Michel Duck and Show Chevron</h1>
+    <p>Click the 3-line chevron to <strong>duck</strong> (collapse) or <strong>show</strong> (expand) panel content. Pure CSS shape. Vanilla JS. Zero dependencies.</p>
+</header>
+
+<main>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- Example 1: Light theme, starts shown           -->
+    <!-- ────────────────────────────────────────────── -->
+    <section>
+        <h2>Light Theme — Shown</h2>
+        <div class="das-panel" data-das-panel data-das-state="shown">
+            <button class="das-chevron" aria-expanded="true" aria-label="Hide panel"></button>
+            <div class="das-content">
+                <div class="das-content-inner">
+                    <div class="demo-pills">
+                        <button class="demo-pill">🎯 Getting Started</button>
+                        <button class="demo-pill">📚 How It Works</button>
+                        <button class="demo-pill">💡 Quick Tips</button>
+                        <button class="demo-pill">🔊 Listen &amp; Speak</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="event-log" id="log1"></div>
+    </section>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- Example 2: Dark theme                          -->
+    <!-- ────────────────────────────────────────────── -->
+    <section class="dark">
+        <h2>Dark Theme — Shown</h2>
+        <div class="das-panel" data-das-panel data-das-state="shown">
+            <button class="das-chevron" aria-expanded="true" aria-label="Hide panel"></button>
+            <div class="das-content">
+                <div class="das-content-inner">
+                    <div class="demo-pills">
+                        <button class="demo-pill dark-pill">Start Lesson</button>
+                        <button class="demo-pill dark-pill">Practice Quiz</button>
+                        <button class="demo-pill dark-pill">My Progress</button>
+                        <button class="demo-pill dark-pill">Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="event-log" id="log2"></div>
+    </section>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- Example 3: Starts ducked                       -->
+    <!-- ────────────────────────────────────────────── -->
+    <section>
+        <h2>Starts Ducked — Click Chevron to Reveal</h2>
+        <div class="das-panel" data-das-panel data-das-state="ducked">
+            <button class="das-chevron" aria-expanded="false" aria-label="Show panel"></button>
+            <div class="das-content">
+                <div class="das-content-inner">
+                    <div class="demo-pills">
+                        <button class="demo-pill">Hidden Content A</button>
+                        <button class="demo-pill">Hidden Content B</button>
+                        <button class="demo-pill">Hidden Content C</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="event-log" id="log3"></div>
+    </section>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- Example 4: Custom size chevron                 -->
+    <!-- ────────────────────────────────────────────── -->
+    <section>
+        <h2>Custom Size (60×14)</h2>
+        <div class="das-panel" data-das-panel data-das-state="shown"
+             style="--das-chevron-width: 60px; --das-chevron-height: 14px; --das-line-1: #d4a0ff; --das-line-2: #8b5cf6; --das-line-3: #4c1d95;">
+            <button class="das-chevron" aria-expanded="true" aria-label="Hide panel"></button>
+            <div class="das-content">
+                <div class="das-content-inner">
+                    <div class="demo-pills">
+                        <button class="demo-pill">Purple Pill</button>
+                        <button class="demo-pill">Violet Pill</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="event-log" id="log4"></div>
+    </section>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- Example 5: Hint of green, starts ducked        -->
+    <!-- ────────────────────────────────────────────── -->
+    <section>
+        <h2>Whisper of Green — Shown</h2>
+        <div class="das-panel" data-das-panel data-das-state="shown"
+             style="--das-line-1: #e8f2e6; --das-line-2: #a8b8a5; --das-line-3: #5a6858; --das-line-1-hover: #d8ecd4; --das-line-2-hover: #8eaa89; --das-line-3-hover: #7a9475;">
+            <button class="das-chevron" aria-expanded="true" aria-label="Hide panel"></button>
+            <div class="das-content">
+                <div class="das-content-inner">
+                    <div class="demo-pills">
+                        <button class="demo-pill">Hidden Content A</button>
+                        <button class="demo-pill">Hidden Content B</button>
+                        <button class="demo-pill">Hidden Content C</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="event-log" id="log5"></div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 Dainis W. Michel · <a href="https://github.com/dainismichel/DA1NI5_michel_duck_and_show_chevron">GitHub</a> · MIT License</p>
+</footer>
+
+<script src="duck-and-show.js"></script>
+<script>
+    // Auto-init runs on load via duck-and-show.js.
+    // Hook into events to show real-time log entries in the demo.
+
+    document.querySelectorAll('.das-panel').forEach((panel, i) => {
+        const logEl = document.getElementById('log' + (i + 1));
+        if (!logEl) return;
+
+        function appendLog(msg) {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            const now = new Date();
+            const ts = now.toLocaleTimeString('en-US', { hour12: false });
+            entry.textContent = ts + '  ' + msg;
+            logEl.prepend(entry);
+            // Keep last 5 entries
+            while (logEl.children.length > 5) logEl.removeChild(logEl.lastChild);
+        }
+
+        panel.addEventListener('das:duck', () => appendLog('→ ducked'));
+        panel.addEventListener('das:show', () => appendLog('→ shown'));
+    });
+</script>
+</body>
+</html>
