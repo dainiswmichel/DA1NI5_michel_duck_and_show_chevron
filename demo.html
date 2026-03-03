@@ -154,10 +154,10 @@
         }
 
         /* Dark background chevron override — brighter lines */
-        .dark .das-panel {
-            --das-line-1: #e0e0e0;
-            --das-line-2: #888888;
-            --das-line-3: #444444;
+        .dark .da1-panel {
+            --da1-line-1: #e0e0e0;
+            --da1-line-2: #888888;
+            --da1-line-3: #444444;
         }
     </style>
 </head>
@@ -175,10 +175,11 @@
     <!-- ────────────────────────────────────────────── -->
     <section>
         <h2>Light Theme — Shown</h2>
-        <div class="das-panel" data-das-panel data-das-state="shown">
-            <button class="das-chevron" aria-expanded="true" aria-label="Hide panel"></button>
-            <div class="das-content">
-                <div class="das-content-inner">
+        <div class="da1-panel" data-da1-panel data-da1-state="shown">
+            <button class="da1-close" aria-label="Close panel">&times;</button>
+            <button class="da1-chevron" aria-expanded="true" aria-label="Hide panel"></button>
+            <div class="da1-content">
+                <div class="da1-content-inner">
                     <div class="demo-pills">
                         <button class="demo-pill">🎯 Getting Started</button>
                         <button class="demo-pill">📚 How It Works</button>
@@ -196,10 +197,11 @@
     <!-- ────────────────────────────────────────────── -->
     <section class="dark">
         <h2>Dark Theme — Shown</h2>
-        <div class="das-panel" data-das-panel data-das-state="shown">
-            <button class="das-chevron" aria-expanded="true" aria-label="Hide panel"></button>
-            <div class="das-content">
-                <div class="das-content-inner">
+        <div class="da1-panel" data-da1-panel data-da1-state="shown">
+            <button class="da1-close" aria-label="Close panel">&times;</button>
+            <button class="da1-chevron" aria-expanded="true" aria-label="Hide panel"></button>
+            <div class="da1-content">
+                <div class="da1-content-inner">
                     <div class="demo-pills">
                         <button class="demo-pill dark-pill">Start Lesson</button>
                         <button class="demo-pill dark-pill">Practice Quiz</button>
@@ -217,10 +219,11 @@
     <!-- ────────────────────────────────────────────── -->
     <section>
         <h2>Starts Ducked — Click Chevron to Reveal</h2>
-        <div class="das-panel" data-das-panel data-das-state="ducked">
-            <button class="das-chevron" aria-expanded="false" aria-label="Show panel"></button>
-            <div class="das-content">
-                <div class="das-content-inner">
+        <div class="da1-panel" data-da1-panel data-da1-state="ducked">
+            <button class="da1-close" aria-label="Close panel">&times;</button>
+            <button class="da1-chevron" aria-expanded="false" aria-label="Show panel"></button>
+            <div class="da1-content">
+                <div class="da1-content-inner">
                     <div class="demo-pills">
                         <button class="demo-pill">Hidden Content A</button>
                         <button class="demo-pill">Hidden Content B</button>
@@ -237,11 +240,12 @@
     <!-- ────────────────────────────────────────────── -->
     <section>
         <h2>Custom Size (60×14)</h2>
-        <div class="das-panel" data-das-panel data-das-state="shown"
-             style="--das-chevron-width: 60px; --das-chevron-height: 14px; --das-line-1: #d4a0ff; --das-line-2: #8b5cf6; --das-line-3: #4c1d95;">
-            <button class="das-chevron" aria-expanded="true" aria-label="Hide panel"></button>
-            <div class="das-content">
-                <div class="das-content-inner">
+        <div class="da1-panel" data-da1-panel data-da1-state="shown"
+             style="--da1-chevron-width: 60px; --da1-chevron-height: 14px; --da1-line-1: #d4a0ff; --da1-line-2: #8b5cf6; --da1-line-3: #4c1d95;">
+            <button class="da1-close" aria-label="Close panel">&times;</button>
+            <button class="da1-chevron" aria-expanded="true" aria-label="Hide panel"></button>
+            <div class="da1-content">
+                <div class="da1-content-inner">
                     <div class="demo-pills">
                         <button class="demo-pill">Purple Pill</button>
                         <button class="demo-pill">Violet Pill</button>
@@ -257,11 +261,12 @@
     <!-- ────────────────────────────────────────────── -->
     <section>
         <h2>Whisper of Green — Shown</h2>
-        <div class="das-panel" data-das-panel data-das-state="shown"
-             style="--das-line-1: #e8f2e6; --das-line-2: #a8b8a5; --das-line-3: #5a6858; --das-line-1-hover: #d8ecd4; --das-line-2-hover: #8eaa89; --das-line-3-hover: #7a9475;">
-            <button class="das-chevron" aria-expanded="true" aria-label="Hide panel"></button>
-            <div class="das-content">
-                <div class="das-content-inner">
+        <div class="da1-panel" data-da1-panel data-da1-state="shown"
+             style="--da1-line-1: #e8f2e6; --da1-line-2: #a8b8a5; --da1-line-3: #5a6858; --da1-line-1-hover: #d8ecd4; --da1-line-2-hover: #8eaa89; --da1-line-3-hover: #7a9475;">
+            <button class="da1-close" aria-label="Close panel">&times;</button>
+            <button class="da1-chevron" aria-expanded="true" aria-label="Hide panel"></button>
+            <div class="da1-content">
+                <div class="da1-content-inner">
                     <div class="demo-pills">
                         <button class="demo-pill">Hidden Content A</button>
                         <button class="demo-pill">Hidden Content B</button>
@@ -284,7 +289,7 @@
     // Auto-init runs on load via duck-and-show.js.
     // Hook into events to show real-time log entries in the demo.
 
-    document.querySelectorAll('.das-panel').forEach((panel, i) => {
+    document.querySelectorAll('.da1-panel').forEach((panel, i) => {
         const logEl = document.getElementById('log' + (i + 1));
         if (!logEl) return;
 
@@ -299,8 +304,9 @@
             while (logEl.children.length > 5) logEl.removeChild(logEl.lastChild);
         }
 
-        panel.addEventListener('das:duck', () => appendLog('→ ducked'));
-        panel.addEventListener('das:show', () => appendLog('→ shown'));
+        panel.addEventListener('da1:duck', () => appendLog('→ ducked'));
+        panel.addEventListener('da1:show', () => appendLog('→ shown'));
+        panel.addEventListener('da1:close', () => appendLog('→ closed'));
     });
 </script>
 </body>

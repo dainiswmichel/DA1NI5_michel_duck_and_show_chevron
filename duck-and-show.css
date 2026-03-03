@@ -1,5 +1,5 @@
 /* ============================================================================
- * DA1NI5 Michel Duck and Show Chevron  v1.0.0
+ * DA1NI5 Michel Duck and Show Chevron  v1.1.0
  * Pure CSS + vanilla JS panel toggle with a 3-line beveled chevron.
  *
  * © 2026 Dainis W. Michel — MIT License
@@ -10,20 +10,20 @@
  * "Duck" = collapse/hide the panel, leaving only the upward chevron visible.
  * "Show" = expand the panel, chevron points downward.
  *
- * CSS Custom Properties (override on .das-panel or :root):
- *   --das-chevron-width   : 40px    Chevron width
- *   --das-chevron-height  : 10px    Chevron height (shallow = wide + short)
- *   --das-line-1          : #ffffff  Top line  (highlight)
- *   --das-line-2          : #aaaaaa  Mid line  (body)
- *   --das-line-3          : #555555  Bottom line (shadow)
- *   --das-focus-color     : #4f46e5  Focus-visible outline color
- *   --das-transition-ms   : 0.3s    Content expand/collapse duration
+ * CSS Custom Properties (override on .da1-panel or :root):
+ *   --da1-chevron-width   : 40px    Chevron width
+ *   --da1-chevron-height  : 10px    Chevron height (shallow = wide + short)
+ *   --da1-line-1          : #ffffff  Top line  (highlight)
+ *   --da1-line-2          : #aaaaaa  Mid line  (body)
+ *   --da1-line-3          : #555555  Bottom line (shadow)
+ *   --da1-focus-color     : #4f46e5  Focus-visible outline color
+ *   --da1-transition-ms   : 0.3s    Content expand/collapse duration
  * ============================================================================ */
 
 
 /* --- Panel Container ------------------------------------------------------- */
 
-.das-panel {
+.da1-panel {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@
 
 /* --- Chevron Toggle Button ------------------------------------------------- */
 
-.das-chevron {
+.da1-chevron {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,25 +51,18 @@
 }
 
 /* Keyboard focus ring */
-.das-chevron:focus-visible {
-    outline: 2px solid var(--das-focus-color, #4f46e5);
+.da1-chevron:focus-visible {
+    outline: 2px solid var(--da1-focus-color, #4f46e5);
     outline-offset: 2px;
     border-radius: 4px;
 }
 
-/* The chevron shape — 3-line beveled V via clip-path + linear-gradient.
- * Points DOWN in "shown" state. Rotates 180° to point UP in "ducked" state.
- *
- * Clip-path polygon trace (40×10 coordinate space):
- *   Outer V:  (0,0) → (20,10) → (40,0)
- *   Inner V:  (33.6,0) → (20,6.2) → (6.4,0)
- *   Result:   hollow V-outline ≈ 3px perpendicular stroke
- */
-.das-chevron::after {
+/* Down-pointing V (::after) — always has down clip-path, visible in shown state */
+.da1-chevron::after {
     content: '';
     display: block;
-    width: var(--das-chevron-width, 40px);
-    height: var(--das-chevron-height, 10px);
+    width: var(--da1-chevron-width, 40px);
+    height: var(--da1-chevron-height, 10px);
     clip-path: polygon(
         0%  0%,
         50% 100%,
@@ -80,51 +73,139 @@
     );
     background: linear-gradient(
         to bottom,
-        var(--das-line-1, #ffffff) 0%,
-        var(--das-line-1, #ffffff) 30%,
-        var(--das-line-2, #aaaaaa) 30%,
-        var(--das-line-2, #aaaaaa) 60%,
-        var(--das-line-3, #555555) 60%,
-        var(--das-line-3, #555555) 100%
+        var(--da1-line-1, #ffffff) 0%,
+        var(--da1-line-1, #ffffff) 30%,
+        var(--da1-line-2, #aaaaaa) 30%,
+        var(--da1-line-2, #aaaaaa) 60%,
+        var(--da1-line-3, #555555) 60%,
+        var(--da1-line-3, #555555) 100%
     );
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Subtle shift on hover — customizable via --das-line-*-hover */
-.das-chevron:hover::after {
+/* Up-pointing V (::before) — always has up clip-path, hidden by default */
+.da1-chevron::before {
+    content: '';
+    display: none;
+    width: var(--da1-chevron-width, 40px);
+    height: var(--da1-chevron-height, 10px);
+    clip-path: polygon(
+        0%  100%,
+        50% 0%,
+        100% 100%,
+        84% 100%,
+        50% 38%,
+        16% 100%
+    );
+    background: linear-gradient(
+        to top,
+        var(--da1-line-1, #ffffff) 0%,
+        var(--da1-line-1, #ffffff) 30%,
+        var(--da1-line-2, #aaaaaa) 30%,
+        var(--da1-line-2, #aaaaaa) 60%,
+        var(--da1-line-3, #555555) 60%,
+        var(--da1-line-3, #555555) 100%
+    );
+}
+
+/* Hover states for both pseudo-elements */
+.da1-chevron:hover::after {
     background: linear-gradient(
         to bottom,
-        var(--das-line-1-hover, var(--das-line-1, #ffffff)) 0%,
-        var(--das-line-1-hover, var(--das-line-1, #ffffff)) 30%,
-        var(--das-line-2-hover, var(--das-line-2, #999999)) 30%,
-        var(--das-line-2-hover, var(--das-line-2, #999999)) 60%,
-        var(--das-line-3-hover, var(--das-line-3, #444444)) 60%,
-        var(--das-line-3-hover, var(--das-line-3, #444444)) 100%
+        var(--da1-line-1-hover, var(--da1-line-1, #ffffff)) 0%,
+        var(--da1-line-1-hover, var(--da1-line-1, #ffffff)) 30%,
+        var(--da1-line-2-hover, var(--da1-line-2, #999999)) 30%,
+        var(--da1-line-2-hover, var(--da1-line-2, #999999)) 60%,
+        var(--da1-line-3-hover, var(--da1-line-3, #444444)) 60%,
+        var(--da1-line-3-hover, var(--da1-line-3, #444444)) 100%
     );
+}
+
+.da1-chevron:hover::before {
+    background: linear-gradient(
+        to top,
+        var(--da1-line-1-hover, var(--da1-line-1, #ffffff)) 0%,
+        var(--da1-line-1-hover, var(--da1-line-1, #ffffff)) 30%,
+        var(--da1-line-2-hover, var(--da1-line-2, #999999)) 30%,
+        var(--da1-line-2-hover, var(--da1-line-2, #999999)) 60%,
+        var(--da1-line-3-hover, var(--da1-line-3, #444444)) 60%,
+        var(--da1-line-3-hover, var(--da1-line-3, #444444)) 100%
+    );
+}
+
+
+/* --- X Close Button -------------------------------------------------------- */
+
+.da1-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.06);
+    border: none;
+    border-radius: 0 16px 0 8px;
+    color: #999;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 3;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.da1-close:hover {
+    background: rgba(0, 0, 0, 0.12);
+    color: #666;
+}
+
+.da1-close:focus-visible {
+    outline: 2px solid var(--da1-focus-color, #4f46e5);
+    outline-offset: -2px;
+}
+
+/* Hide X when ducked or closed */
+[data-da1-state="ducked"] .da1-close,
+[data-da1-state="closed"] .da1-close {
+    display: none;
 }
 
 
 /* --- Content Area (grid-row animation for pixel-perfect height) ------------ */
 
-.das-content {
+.da1-content {
     display: grid;
     grid-template-rows: 1fr;
-    transition: grid-template-rows var(--das-transition-ms, 0.3s) cubic-bezier(0.4, 0, 0.2, 1);
+    transition: grid-template-rows var(--da1-transition-ms, 0.3s) cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
 }
 
 /* Inner wrapper — required for the grid-row collapse trick */
-.das-content-inner {
+.da1-content-inner {
     overflow: hidden;
 }
 
 
 /* --- Ducked State ---------------------------------------------------------- */
 
-[data-das-state="ducked"] .das-chevron::after {
-    transform: rotate(180deg);
+/* Swap pseudo-elements — hide ::after (down), show ::before (up) */
+[data-da1-state="ducked"] .da1-chevron::after {
+    display: none;
 }
 
-[data-das-state="ducked"] .das-content {
+[data-da1-state="ducked"] .da1-chevron::before {
+    display: block;
+}
+
+[data-da1-state="ducked"] .da1-content {
     grid-template-rows: 0fr;
+}
+
+
+/* --- Closed State ---------------------------------------------------------- */
+
+[data-da1-state="closed"] {
+    display: none;
 }
